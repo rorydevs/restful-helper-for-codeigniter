@@ -8,9 +8,9 @@ Built out of necessity for working with RESTful frameworks like Backbonejs, I bu
 * Clone or download this repo
 * Copy the application folder into your Codeigniter project directory
 * Load the restful helper in your controller with
-    $this->load->helper('restful');
+>$this->load->helper('restful');
 * Or autoload the helper file in your autoload.php
-    $autoload['helper'] = array('restful_helper');
+>$autoload['helper'] = array('restful_helper');
 
 ### Functions
 #### get_request_type()
@@ -19,9 +19,11 @@ Gets the current request type so that you can determine whether the service is r
 #### allowed_request_types($allowed_requests)
 Allows you to gate away specific request types. Accepts a string or an array.
 If your endpoint is GET only, you can restrict it using
-    allowed_request_types('get');
+>allowed_request_types('get');
+
 A GET,POST,PUT endpoint like "/user" will take
-    allowed_request_types(array('get', 'post', 'put'));
+>allowed_request_types(array('get', 'post', 'put'));
+
 This will reject all server requests but GET with a 403 response.
 
 #### return_json($obj, $status = 200)
