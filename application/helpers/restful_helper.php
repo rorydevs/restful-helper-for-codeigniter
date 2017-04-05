@@ -7,7 +7,7 @@
  * @author Rory Molyneux <rorymolyneux@gmail.com>
  * @date 2017-03-29
  * @url https://github.com/aftertheboop/restful-helper-for-codeigniter/
- * @version 1.1
+ * @version 1.0
  */
 
 /**
@@ -91,9 +91,10 @@ function get_vars() {
     
     $post = $ci->input->post();
     $get = $ci->input->get();
+    $req_type = get_request_type();
     
     // Different data handling for if there is a PUT request
-    if(get_request_type() == 'put') {
+    if($req_type == 'put' || $req_type  == 'delete') {
         
         parse_str(urldecode(file_get_contents('php://input')), $phpinput);
                 
