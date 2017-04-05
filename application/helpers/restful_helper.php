@@ -6,7 +6,8 @@
  * Helper functions for RESTful web service creation
  * @author Rory Molyneux <rorymolyneux@gmail.com>
  * @date 2017-03-29
- * @version 1.0
+ * @url https://github.com/aftertheboop/restful-helper-for-codeigniter/
+ * @version 1.1
  */
 
 /**
@@ -86,12 +87,19 @@ function return_json($obj, $status = 200) {
  * @return mixed
  */
 function get_vars() {
-    
     $ci =& get_instance();
     
     $post = $ci->input->post();
     $get = $ci->input->get();
-    $phpinput = (Array)json_decode(file_get_contents('php://input'));
+    
+    // Different data handling for if there is a PUT request
+    if(get_request_type() == 'put') {
+        
+        parse_str(urldecode(file_get_contents('php://input')), $phpinput);
+                
+    } else {
+        $phpinput = (Array)json_decode(file_get_contents('php://input'));
+    }
     
     if(is_null($post) || !$post) {
         $post = array();

@@ -21,10 +21,12 @@ Allows you to gate away specific request types. Accepts a string or an array.
 If your endpoint is GET only, you can restrict it using
 >allowed_request_types('get');
 
+This will reject all server requests but GET with a 403 response.
+
 A GET,POST,PUT endpoint like "/user" will take
 >allowed_request_types(array('get', 'post', 'put'));
 
-This will reject all server requests but GET with a 403 response.
+
 
 #### return_json($obj, $status = 200)
 This method will return your data as a JSON string with a 200 HTTP status code, unless otherwise specified. Useful for if you want to standardise how you send data back to the application.
