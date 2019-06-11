@@ -114,3 +114,80 @@ function get_vars() {
     
     return (object) $vars;
 }
+
+/**
+ * Get Auth
+ * 
+ * Extracts the Authorization header and returns the username and password as
+ * an object.
+ * @return object
+ */
+function get_auth() {
+    
+    // Create empty array
+    $auth = new stdClass();
+    $auth->username = '';
+    $auth->password = '';
+    
+    // Get headers
+    $headers = getallheaders();
+    
+    // Return an empty object if no auth is set
+    if( !isset( $headers['Authorization'] ) ) {
+        
+        return $auth;
+        
+    }
+    
+    // Explode header string to remove the "Basic" section
+    $authorization = explode( ' ', $headers['Authorization'] );
+    
+    // Get final node of the array
+    $encoded_string = end( $authorization );
+    // Decode base64 string
+    $decoded_string = base64_decode( $encoded_string );
+    // Explode username:password string
+    $authorization = explode( ':', $decoded_string );
+    
+    // Assign username and password
+    if( isset($authorization[0] ) ) {
+        $auth->username = $authorization[0];
+    }
+    
+    if( isset($authorization[1] ) ) {
+        $auth->password = $authorization[1];
+    }
+    
+    return $auth;
+    
+}
+
+/**
+ * Some shared hosting installs do not have getallheaders() available natively
+ * so this workaround exists.
+ */
+if( !function_exists( 'getallheaders' ) ) {
+    
+    function getallheaders() {
+        
+        $headers = [];
+        
+        // Extract all $_SERVER variables
+        foreach( $_SERVER as $name => $value ) {
+            // Only address server vars starting with 'HTTP'
+            if( substr( $name, 0, 5 ) == 'HTTP' ) {
+                // Extract the header name from the server var removing any 
+                // unwanted characters and uppercasing the key
+                $header_key = str_replace( ' ', '-', ucwords( strtolower( str_replace( '_', ' ', substr( $name, 5 ) ) ) ) );
+                // Assign it to an array
+                $headers[$header_key] = $value;
+                
+            }
+            
+        }
+        
+        return $headers;
+        
+    }
+    
+}

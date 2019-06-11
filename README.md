@@ -26,10 +26,12 @@ This will reject all server requests but GET with a 403 response.
 A GET,POST,PUT endpoint like "/user" will take
 >allowed_request_types(array('get', 'post', 'put'));
 
-
-
 #### return_json($obj, $status = 200)
 This method will return your data as a JSON string with a 200 HTTP status code, unless otherwise specified. Useful for if you want to standardise how you send data back to the application.
 
 #### get_vars()
 Returns a PHP Object of any/all POST, PUT or GET values sent to your endpoint.
+
+#### get_auth()
+Gets the `Authorization` header encoded phrase, decodes it and returns the object
+as a username and password pair to be passed to your own auth function.
